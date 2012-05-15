@@ -26,6 +26,7 @@ private:
     bool exporting;
     int recursiveLoaderCounter;
     bool recursiveLoaderDone;
+    QPixmap pattern;
 signals:
     void renderedImage(const QList<QImage> &image);
 public slots:

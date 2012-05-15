@@ -17,6 +17,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->widget->scaleBox = ui->scale;
     tabifyDockWidget(ui->dockPreferences, ui->dockExport);
     ui->dockPreferences->raise();
+
+    pattern = QPixmap(20,20);
+    QPainter painter(&pattern);
+    #define BRIGHT 190
+    #define SHADOW 150
+    painter.fillRect(0,0,10,10,QColor(SHADOW,SHADOW,SHADOW));
+    painter.fillRect(10,0,10,10,QColor(BRIGHT,BRIGHT,BRIGHT));
+    painter.fillRect(10,10,10,10,QColor(SHADOW,SHADOW,SHADOW));
+    painter.fillRect(0,10,10,10,QColor(BRIGHT,BRIGHT,BRIGHT));
 //    QString dir(QString::fromUtf8("/home/rpg/Игры/violetland-v0.3.0/images/anima/player"));
 //    ui->tilesList->clear();
 //    packedImageList.clear();
@@ -254,7 +263,7 @@ void MainWindow::packerUpdate()
             }
             QPainter p(&textures.operator [](packer.images.at(i).textureId));
             if(!exporting)
-                p.fillRect(pos.x(), pos.y(), size.width(), size.height(), Qt::gray);
+                p.fillRect(pos.x(), pos.y(), size.width(), size.height(), pattern);
             if(ui->previewWithImages->isChecked() || exporting)
             {
                 p.drawImage(pos.x(), pos.y(), img, crop.x(), crop.y(), crop.width(), crop.height());
