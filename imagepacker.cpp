@@ -156,11 +156,11 @@ void ImagePacker::pack(int packMethod, int heur, uint w, uint h)
             }
 }
 
-u_int32_t rc_crc32(u_int32_t crc, const uchar *buf, size_t len)
+quint32 rc_crc32(quint32 crc, const uchar *buf, size_t len)
 {
-    static u_int32_t table[256];
+    static quint32 table[256];
     static int have_table = 0;
-    u_int32_t rem, octet;
+    quint32 rem, octet;
     int i, j;
     const uchar *p, *q;
 

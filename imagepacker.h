@@ -45,7 +45,7 @@ public:
     void realculateDuplicates();
     void clear();
     int compare;
-    u_int64_t area, summArea, neededArea;
+    quint64 area, summArea, neededArea;
     int missingImages;
     int mergedImages;
     bool ltr, trim, merge, mergeBF;
