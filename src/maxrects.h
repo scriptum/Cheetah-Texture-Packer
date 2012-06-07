@@ -24,6 +24,7 @@ public:
     QPoint insertNode(inputImage*);
     int heuristic, w, h, rotation;
     bool leftToRight;
+    border_t *border;
 };
 
 #endif // MAXRECTS_H

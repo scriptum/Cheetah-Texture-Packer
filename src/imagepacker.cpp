@@ -21,7 +21,10 @@ void ImagePacker::pack(int packMethod, int heur, uint w, uint h)
             size = images.at(i).crop.size();
         else
             size = images.at(i).size;
-        size += QSize(borderLeft+borderRight, borderTop+borderBottom);
+        if(size.width() == w) size.setWidth(size.width() - border.l - border.r);
+        if(size.height() == h) size.setHeight(size.height() - border.t - border.b);
+        size += QSize(border.l + border.r, border.t + border.b);
+
         images.operator [](i).rotated = false;
         if((rotate == WIDTH_GREATHER_HEIGHT && size.width() > size.height()) ||
            (rotate == WIDTH_GREATHER_2HEIGHT && size.width() > 2 * size.height()) ||
@@ -87,6 +90,7 @@ void ImagePacker::pack(int packMethod, int heur, uint w, uint h)
         rects.w = W;
         rects.h = H;
         rects.rotation = rotate;
+        rects.border = &border;
         binsBuffer << rects;
         bins << QSize(W,H);
         currentBin = &binsBuffer.last();
