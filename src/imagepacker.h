@@ -16,7 +16,7 @@ struct packedImage
 
 struct inputImage
 {
-    u_int32_t hash;
+    quint32 hash;
     int textureId;
     void *id;
     void *duplicateId;
@@ -26,6 +26,11 @@ struct inputImage
 
     bool cropped, rotated;
 };
+
+struct border_t {
+    int t, b, l, r;
+};
+
 class ImagePacker : public QObject
 {
 private:
@@ -49,7 +54,8 @@ public:
     int missingImages;
     int mergedImages;
     bool ltr, trim, merge, mergeBF;
-    unsigned int borderTop, borderBottom, borderLeft, borderRight, rotate;
+    border_t border;
+    int rotate;
     int sortOrder;
     enum {GUILLOTINE, MAXRECTS}; //method
     enum {NONE, TL, BAF, BSSF, BLSF, MINW, MINH, HEURISTIC_NUM}; //heuristic

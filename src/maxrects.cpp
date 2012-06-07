@@ -9,6 +9,8 @@ QPoint MaxRects::insertNode(inputImage * input)
     int i, j;
     int min = 999999999, mini = -1, m, minbuf;
     QSize img = input->sizeCurrent;
+//    if(img.width() == w) img.setWidth(img.width() - border->l - border->r);
+//    if(img.height() == h) img.setHeight(img.height() - border->t - border->b);
     if(img.width() == 0 || img.height() == 0)
         return QPoint(0,0);
     static int nextx = 0, nexty = 0, prevx;

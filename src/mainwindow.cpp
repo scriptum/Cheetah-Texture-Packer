@@ -129,10 +129,10 @@ void MainWindow::packerUpdate()
     int i;
     u_int64_t area = 0;
     packer.sortOrder = ui->sortOrder->currentIndex();
-    packer.borderTop = ui->borderTop->value();
-    packer.borderLeft = ui->borderLeft->value();
-    packer.borderRight = ui->borderRight->value();
-    packer.borderBottom = ui->borderBottom->value();
+    packer.border.t = ui->borderTop->value();
+    packer.border.l = ui->borderLeft->value();
+    packer.border.r = ui->borderRight->value();
+    packer.border.b = ui->borderBottom->value();
     packer.trim = ui->trim->isChecked();
     packer.merge = ui->merge->isChecked();
     packer.mergeBF = false;
@@ -186,8 +186,8 @@ void MainWindow::packerUpdate()
                 for (i = 0; i < packer.images.size(); i++)
                 {
                     if(packer.images.at(i).textureId != j) continue;
-                    QPoint pos(packer.images.at(i).pos.x() + packer.borderLeft,
-                             packer.images.at(i).pos.y() + packer.borderTop);
+                    QPoint pos(packer.images.at(i).pos.x() + packer.border.l,
+                             packer.images.at(i).pos.y() + packer.border.t);
                     QSize size, sizeOrig;
                     QRect crop;
                     sizeOrig = packer.images.at(i).size;
@@ -236,8 +236,8 @@ void MainWindow::packerUpdate()
             {
                 continue;
             }
-            QPoint pos(packer.images.at(i).pos.x() + packer.borderLeft,
-                     packer.images.at(i).pos.y() + packer.borderTop);
+            QPoint pos(packer.images.at(i).pos.x() + packer.border.l,
+                     packer.images.at(i).pos.y() + packer.border.t);
             QSize size;
             QRect crop;
             if(!packer.trim)
