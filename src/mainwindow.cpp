@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //    recursiveLoaderDone = false;
 //    packer.clear();
 //    RecurseDirectory(dir);
+//    ui->retranslateUi(this);
 }
 
 MainWindow::~MainWindow()
@@ -79,12 +80,12 @@ void MainWindow::RecurseDirectory(const QString &dir)
             if(QMessageBox::No ==
                     QMessageBox::question(
                       this,
-                      "Directory is too big",
-                      "It seems that directory <b>" + topImageDir +
-                      "</b> is too big. "
+                      tr("Directory is too big"),
+                      tr("It seems that directory <b>") + topImageDir +
+                      tr("</b> is too big. "
                       "Loading may take HUGE amount of time and memory. "
                       "Please, check directory again. <br>"
-                      "Do you want to continue?",
+                      "Do you want to continue?"),
                                           QMessageBox::Yes,
                                           QMessageBox::No))
                 {
@@ -178,11 +179,11 @@ void MainWindow::packerUpdate()
 
             QFile positionsFile(outputFile);
             if (!positionsFile.open(QIODevice::WriteOnly | QIODevice::Text))
-                QMessageBox::critical(0, "Error", "Cannot create file " + outputFile);
+                QMessageBox::critical(0, tr("Error"), tr("Cannot create file ") + outputFile);
             else
             {
                 QTextStream out(&positionsFile);
-                out << "textures: " << imgFile << "\n";
+                out << tr("textures: ") << imgFile << "\n";
                 for (i = 0; i < packer.images.size(); i++)
                 {
                     if(packer.images.at(i).textureId != j) continue;
@@ -275,12 +276,12 @@ void MainWindow::packerUpdate()
             area += textures.at(i).width() * textures.at(i).height();
         float percent = (((float)packer.area / (float)area) * 100.0f);
         float percent2 = (float)(((float)packer.neededArea / (float)area) * 100.0f );
-        ui->preview->setText(QString("Preview: ") +
+        ui->preview->setText(tr("Preview: ") +
              QString::number(percent) + QString("% filled, ") +
-             (packer.missingImages == 0 ? QString::number(packer.missingImages) + QString(" images missed, ") :
-              QString("<font color=red><b>") + QString::number(packer.missingImages) + QString(" images missed,</b></font> ")) +
-             QString::number(packer.mergedImages) + QString(" images merged, needed area: ") +
-             QString::number(percent2) + QString("%."));
+             (packer.missingImages == 0 ? QString::number(packer.missingImages) + tr(" images missed,") :
+              QString("<font color=red><b>") + QString::number(packer.missingImages) + tr(" images missed,") + "</b></font>") +
+             " " + QString::number(packer.mergedImages) + tr(" images merged, needed area: ") +
+             QString::number(percent2) + "%.");
         if(exporting)
         {
             const char * format = qPrintable(ui->outFormat->currentText());
@@ -301,7 +302,7 @@ void MainWindow::packerUpdate()
                     textures.at(i).save(imgdirFile, format, 0);
             }
 
-            QMessageBox::information(0, "Done", "Your atlas successfully saved in " + ui->outDir->text());
+            QMessageBox::information(0, tr("Done"), tr("Your atlas successfully saved in ") + ui->outDir->text());
             exporting = false;
         }
         else
@@ -365,3 +366,34 @@ void MainWindow::updateAuto()
         packerUpdate();
 }
 
+void MainWindow::dragEnterEvent(QDragEnterEvent *event)
+{
+
+    QMessageBox::information(this, tr("Dropped file"), "123");
+    event->acceptProposedAction();
+}
+
+void MainWindow::dropEvent(QDropEvent *event)
+{
+    QList<QUrl> droppedUrls = event->mimeData()->urls();
+    int droppedUrlCnt = droppedUrls.size();
+    QMessageBox::information(this, tr("Dropped file"), "123");
+    for(int i = 0; i < droppedUrlCnt; i++) {
+        QString localPath = droppedUrls[i].toLocalFile();
+        QFileInfo fileInfo(localPath);
+        if(fileInfo.isFile()) {
+// file
+            QMessageBox::information(this, tr("Dropped file"), fileInfo.absoluteFilePath());
+        }
+        else if(fileInfo.isDir()) {
+// directory
+            QMessageBox::information(this, tr("Dropped directory"), fileInfo.absoluteFilePath());
+        }
+        else {
+// none
+            QMessageBox::information(this, tr("Dropped, but unknown"), tr("Unknown: %1").arg(fileInfo.absoluteFilePath()));
+        }
+    }
+
+    event->acceptProposedAction();
+}
