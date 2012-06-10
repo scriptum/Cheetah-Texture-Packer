@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QDropEvent>
+#include <QUrl>
+#include <QDrag>
 #include "imagepacker.h"
 
 namespace Ui {
@@ -27,6 +30,9 @@ private:
     int recursiveLoaderCounter;
     bool recursiveLoaderDone;
     QPixmap pattern;
+protected:
+    void dropEvent(QDropEvent *event);
+    void dragEnterEvent(QDragEnterEvent *event);
 signals:
     void renderedImage(const QList<QImage> &image);
 public slots:

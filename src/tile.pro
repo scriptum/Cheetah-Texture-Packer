@@ -9,7 +9,6 @@ QT       += core gui
 TARGET = tile
 TEMPLATE = app
 
-
 SOURCES += main.cpp\
         mainwindow.cpp \
     view.cpp \
@@ -25,3 +24,5 @@ HEADERS  += mainwindow.h \
     guillotine.h \
     maxrects.h
 FORMS    += mainwindow.ui
+
+TRANSLATIONS += tile_ru.ts
