@@ -422,18 +422,18 @@
     <message>
         <location filename="mainwindow.cpp" line="279"/>
         <source>Preview: </source>
-        <translation>Предпросмотр:</translation>
+        <translation>Предпросмотр: </translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="281"/>
         <location filename="mainwindow.cpp" line="282"/>
         <source> images missed,</source>
-        <translation>картинок пропущено,</translation>
+        <translation> картинок пропущено,</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="283"/>
         <source> images merged, needed area: </source>
-        <translation> картинок объединено, необходимая площадь:</translation>
+        <translation> картинок объединено, необходимая площадь: </translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="305"/>
