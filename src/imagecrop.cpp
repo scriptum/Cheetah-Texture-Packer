@@ -13,21 +13,21 @@ QRect ImagePacker::crop(QImage *img)
     for(y = 0; y < img->height(); y++)
     {
             for(j = 0; j < img->width(); j++)
-                    if(img->pixel(j,y) != pix) {t = false; break;}
+                    if(qAlpha(img->pixel(j,y)) > 0) {t = false; break;}
             if(!t) break;
     }
     t = true;
     //left
     for(x = 0; x < img->width(); x++){
             for(j = y; j < img->height(); j++)
-                    if(img->pixel(x,j) != pix) {t = false; break;}
+                    if(qAlpha(img->pixel(x,j)) > 0) {t = false; break;}
             if(!t) break;
     }
     t = true;
     //right
     for(w = img->width(); w > 0; w--){
             for(j = y; j < img->height(); j++)
-                    if(img->pixel(w-1,j) != pix) {t = false; break;}
+                    if(qAlpha(img->pixel(w-1,j)) > 0) {t = false; break;}
             if(!t) break;
     }
     t = true;
@@ -37,7 +37,7 @@ QRect ImagePacker::crop(QImage *img)
         //bottom
         for(h = img->height(); h > 0; h--){
             for(j = x; j < w; j++)
-                if(img->pixel(j,h-1) != pix) {t = false; break;}
+                if(qAlpha(img->pixel(j,h-1)) > 0) {t = false; break;}
             if(!t) break;
         }
     }
