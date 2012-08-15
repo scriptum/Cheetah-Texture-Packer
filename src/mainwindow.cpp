@@ -297,9 +297,19 @@ void MainWindow::packerUpdate()
                 imgdirFile += ui->outFormat->currentText().toLower();
                 qDebug() << imgdirFile;
                 if(ui->outFormat->currentText() == "JPG")
-                    textures.at(i).save(imgdirFile, format, 100);
+                {
+                    int res = textures.at(i).save(imgdirFile, format, 100);
+                    qDebug("%d", res);
+                    qDebug("%d", textures.at(i).width());
+                    qDebug("%x", &textures.at(i));
+                }
                 else
-                    textures.at(i).save(imgdirFile, format, 0);
+                {
+                    int res = textures.at(i).save(imgdirFile);
+                    qDebug("%d", res);
+                    qDebug("%d", textures.at(i).width());
+                    qDebug("%x", &textures.at(i));
+                }
             }
 
             QMessageBox::information(0, tr("Done"), tr("Your atlas successfully saved in ") + ui->outDir->text());
