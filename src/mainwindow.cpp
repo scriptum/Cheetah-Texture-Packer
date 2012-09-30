@@ -53,7 +53,8 @@ void MainWindow::RecurseDirectory(const QString &dir)
         QFileInfo info = list[i];
 
         QString filePath = info.filePath();
-        QString fileExt = info.completeSuffix().toLower();
+        QString fileExt = info.suffix().toLower();
+        //~ qDebug() << filePath << fileExt;
         QString name = dir+QDir::separator();
         if (info.isDir())
         {
@@ -295,20 +296,20 @@ void MainWindow::packerUpdate()
                     imgdirFile += QString("_") + QString::number(i + 1);
                 imgdirFile += ".";
                 imgdirFile += ui->outFormat->currentText().toLower();
-                qDebug() << imgdirFile;
+                //~ qDebug() << imgdirFile;
                 if(ui->outFormat->currentText() == "JPG")
                 {
                     int res = textures.at(i).save(imgdirFile, format, 100);
-                    qDebug("%d", res);
-                    qDebug("%d", textures.at(i).width());
-                    qDebug("%x", &textures.at(i));
+                    //~ qDebug("%d", res);
+                    //~ qDebug("%d", textures.at(i).width());
+                    //~ qDebug("%x", &textures.at(i));
                 }
                 else
                 {
                     int res = textures.at(i).save(imgdirFile);
-                    qDebug("%d", res);
-                    qDebug("%d", textures.at(i).width());
-                    qDebug("%x", &textures.at(i));
+                    //~ qDebug("%d", res);
+                    //~ qDebug("%d", textures.at(i).width());
+                    //~ qDebug("%x", &textures.at(i));
                 }
             }
 
