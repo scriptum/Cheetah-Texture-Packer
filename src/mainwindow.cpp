@@ -55,7 +55,7 @@ void MainWindow::RecurseDirectory(const QString &dir)
         QString filePath = info.filePath();
         QString fileExt = info.suffix().toLower();
         //~ qDebug() << filePath << fileExt;
-        QString name = dir+QDir::separator();
+        QString name = dir + QDir::separator();
         if (info.isDir())
         {
             // recursive
@@ -106,13 +106,19 @@ void MainWindow::addTiles()
     {
         ui->tilesList->clear();
         packedImageList.clear();
-        topImageDir = dir + QString("/");
+        //FIXME
+        //this is messy hack due to difference between QFileDialog and QFileInfo dir separator in Windows
+        if (QDir::separator() == '\\')
+            topImageDir = dir.replace("\\","/") + "/";
+        else
+            topImageDir = dir + "/";
         ui->outDir->setText(dir);
         recursiveLoaderCounter = 0;
         recursiveLoaderDone = false;
         packer.clear();
         RecurseDirectory(dir);
-        ui->outFile->setText(dir.replace(QRegExp("^.*/"), ""));
+        QFileInfo info(dir);
+        ui->outFile->setText(info.baseName());
         packerUpdate();
     }
 }
@@ -129,7 +135,7 @@ void MainWindow::deleteSelectedTiles()
 void MainWindow::packerUpdate()
 {
     int i;
-    u_int64_t area = 0;
+    quint64 area = 0;
     packer.sortOrder = ui->sortOrder->currentIndex();
     packer.border.t = ui->borderTop->value();
     packer.border.l = ui->borderLeft->value();

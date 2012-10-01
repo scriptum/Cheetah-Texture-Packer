@@ -12,7 +12,6 @@ Guillotine::Guillotine(Guillotine* _head)
     child[1] = NULL;
 }
 
-
 void Guillotine::delGuillotine()
 {
     if(!leaf)
