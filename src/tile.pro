@@ -14,7 +14,6 @@ SOURCES += main.cpp\
     view.cpp \
     imagepacker.cpp \
     imagecrop.cpp \
-    guillotine.cpp \
     imagesort.cpp \
     maxrects.cpp
 

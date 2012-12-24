@@ -40,7 +40,7 @@ public slots:
     void deleteSelectedTiles();
     void packerUpdate();
     void updateAuto();
-    void setTextureSize128();
+    void setTextureSize2048();
     void setTextureSize256();
     void setTextureSize512();
     void setTextureSize1024();

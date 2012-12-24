@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>509</width>
-    <height>617</height>
+    <width>515</width>
+    <height>624</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -111,8 +111,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>117</width>
-           <height>579</height>
+           <width>122</width>
+           <height>585</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -165,7 +165,7 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>0</width>
+     <width>109</width>
      <height>270</height>
     </size>
    </property>
@@ -330,7 +330,7 @@
    <property name="maximumSize">
     <size>
      <width>9999</width>
-     <height>9999</height>
+     <height>353</height>
     </size>
    </property>
    <property name="floating">
@@ -458,7 +458,7 @@
           </font>
          </property>
          <property name="text">
-          <string>128</string>
+          <string>256</string>
          </property>
         </widget>
        </item>
@@ -482,7 +482,7 @@
           </font>
          </property>
          <property name="text">
-          <string>256</string>
+          <string>512</string>
          </property>
         </widget>
        </item>
@@ -506,7 +506,7 @@
           </font>
          </property>
          <property name="text">
-          <string>512</string>
+          <string>1024</string>
          </property>
         </widget>
        </item>
@@ -530,38 +530,52 @@
           </font>
          </property>
          <property name="text">
-          <string>1024</string>
+          <string>2048</string>
          </property>
         </widget>
        </item>
       </layout>
      </item>
      <item>
+      <widget class="QCheckBox" name="merge">
+       <property name="toolTip">
+        <string>Merge images if they are eqal.</string>
+       </property>
+       <property name="text">
+        <string>Merge</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <layout class="QHBoxLayout" name="horizontalLayout_8">
        <item>
-        <widget class="QCheckBox" name="trim">
-         <property name="toolTip">
-          <string>Remove empty area around each image.</string>
-         </property>
+        <widget class="QLabel" name="label_crop">
          <property name="text">
-          <string>Crop</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
+          <string>Crop mode:</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="merge">
+        <widget class="QComboBox" name="trim">
          <property name="toolTip">
-          <string>Merge images if they are eqal.</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove empty area around each image.&lt;/p&gt;&lt;p&gt;Crop off - disable any cropping&lt;/p&gt;&lt;p&gt;Crop alpha - crop images only by alpha channel&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
-         <property name="text">
-          <string>Merge</string>
+         <property name="currentIndex">
+          <number>1</number>
          </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
+         <item>
+          <property name="text">
+           <string>Crop off</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Crop alpha</string>
+          </property>
+         </item>
         </widget>
        </item>
       </layout>
@@ -1108,11 +1122,11 @@
    <sender>pushButton_6</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>setTextureSize128()</slot>
+   <slot>setTextureSize256()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>57</x>
-     <y>422</y>
+     <x>55</x>
+     <y>354</y>
     </hint>
     <hint type="destinationlabel">
      <x>7</x>
@@ -1124,11 +1138,11 @@
    <sender>pushButton_3</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>setTextureSize256()</slot>
+   <slot>setTextureSize512()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>105</x>
-     <y>422</y>
+     <x>101</x>
+     <y>354</y>
     </hint>
     <hint type="destinationlabel">
      <x>1</x>
@@ -1140,11 +1154,11 @@
    <sender>pushButton_5</sender>
    <signal>clicked(bool)</signal>
    <receiver>MainWindow</receiver>
-   <slot>setTextureSize512()</slot>
+   <slot>setTextureSize1024()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>153</x>
-     <y>422</y>
+     <x>147</x>
+     <y>354</y>
     </hint>
     <hint type="destinationlabel">
      <x>0</x>
@@ -1159,8 +1173,8 @@
    <slot>setTextureSize1024()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>201</x>
-     <y>422</y>
+     <x>193</x>
+     <y>354</y>
     </hint>
     <hint type="destinationlabel">
      <x>1</x>
@@ -1175,8 +1189,8 @@
    <slot>packerUpdate()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>138</x>
-     <y>745</y>
+     <x>197</x>
+     <y>613</y>
     </hint>
     <hint type="destinationlabel">
      <x>5</x>
@@ -1191,8 +1205,8 @@
    <slot>getFolder()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>788</x>
-     <y>146</y>
+     <x>499</x>
+     <y>149</y>
     </hint>
     <hint type="destinationlabel">
      <x>4</x>
@@ -1207,8 +1221,8 @@
    <slot>exportImage()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>789</x>
-     <y>208</y>
+     <x>500</x>
+     <y>212</y>
     </hint>
     <hint type="destinationlabel">
      <x>7</x>
@@ -1223,12 +1237,12 @@
    <slot>rescale(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>576</x>
-     <y>25</y>
+     <x>331</x>
+     <y>26</y>
     </hint>
     <hint type="destinationlabel">
-     <x>226</x>
-     <y>48</y>
+     <x>220</x>
+     <y>49</y>
     </hint>
    </hints>
   </connection>
@@ -1239,8 +1253,8 @@
    <slot>addTiles()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>62</x>
-     <y>280</y>
+     <x>43</x>
+     <y>226</y>
     </hint>
     <hint type="destinationlabel">
      <x>8</x>
@@ -1255,11 +1269,11 @@
    <slot>deleteSelectedTiles()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>145</x>
-     <y>283</y>
+     <x>180</x>
+     <y>226</y>
     </hint>
     <hint type="destinationlabel">
-     <x>632</x>
+     <x>510</x>
      <y>124</y>
     </hint>
    </hints>
@@ -1271,8 +1285,8 @@
    <slot>swapSizes()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>151</x>
-     <y>402</y>
+     <x>152</x>
+     <y>325</y>
     </hint>
     <hint type="destinationlabel">
      <x>0</x>
@@ -1288,10 +1302,10 @@
    <hints>
     <hint type="sourcelabel">
      <x>185</x>
-     <y>277</y>
+     <y>260</y>
     </hint>
     <hint type="destinationlabel">
-     <x>-6</x>
+     <x>0</x>
      <y>360</y>
     </hint>
    </hints>
@@ -1304,11 +1318,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>90</x>
-     <y>706</y>
+     <y>579</y>
     </hint>
     <hint type="destinationlabel">
-     <x>-13</x>
-     <y>732</y>
+     <x>0</x>
+     <y>623</y>
     </hint>
    </hints>
   </connection>
@@ -1319,12 +1333,12 @@
    <slot>updateAuto()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>135</x>
-     <y>671</y>
+     <x>197</x>
+     <y>552</y>
     </hint>
     <hint type="destinationlabel">
-     <x>-8</x>
-     <y>679</y>
+     <x>0</x>
+     <y>623</y>
     </hint>
    </hints>
   </connection>
@@ -1335,12 +1349,12 @@
    <slot>updateAuto()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>183</x>
-     <y>632</y>
+     <x>197</x>
+     <y>519</y>
     </hint>
     <hint type="destinationlabel">
-     <x>-24</x>
-     <y>637</y>
+     <x>0</x>
+     <y>623</y>
     </hint>
    </hints>
   </connection>
@@ -1351,11 +1365,11 @@
    <slot>updateAuto()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>203</x>
-     <y>589</y>
+     <x>197</x>
+     <y>486</y>
     </hint>
     <hint type="destinationlabel">
-     <x>-53</x>
+     <x>0</x>
      <y>571</y>
     </hint>
    </hints>
@@ -1367,11 +1381,11 @@
    <slot>updateAuto()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>61</x>
-     <y>540</y>
+     <x>159</x>
+     <y>382</y>
     </hint>
     <hint type="destinationlabel">
-     <x>-44</x>
+     <x>0</x>
      <y>536</y>
     </hint>
    </hints>
@@ -1383,11 +1397,11 @@
    <slot>updateAuto()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>135</x>
-     <y>531</y>
+     <x>133</x>
+     <y>453</y>
     </hint>
     <hint type="destinationlabel">
-     <x>-44</x>
+     <x>0</x>
      <y>503</y>
     </hint>
    </hints>
@@ -1399,11 +1413,11 @@
    <slot>updateAuto()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>198</x>
-     <y>511</y>
+     <x>195</x>
+     <y>432</y>
     </hint>
     <hint type="destinationlabel">
-     <x>-79</x>
+     <x>0</x>
      <y>489</y>
     </hint>
    </hints>
@@ -1415,11 +1429,11 @@
    <slot>updateAuto()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>135</x>
-     <y>491</y>
+     <x>133</x>
+     <y>411</y>
     </hint>
     <hint type="destinationlabel">
-     <x>-66</x>
+     <x>0</x>
      <y>470</y>
     </hint>
    </hints>
@@ -1431,11 +1445,11 @@
    <slot>updateAuto()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>58</x>
-     <y>511</y>
+     <x>61</x>
+     <y>432</y>
     </hint>
     <hint type="destinationlabel">
-     <x>-24</x>
+     <x>0</x>
      <y>482</y>
     </hint>
    </hints>
@@ -1447,11 +1461,11 @@
    <slot>updateAuto()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>131</x>
-     <y>398</y>
+     <x>132</x>
+     <y>326</y>
     </hint>
     <hint type="destinationlabel">
-     <x>-27</x>
+     <x>0</x>
      <y>387</y>
     </hint>
    </hints>
@@ -1463,11 +1477,11 @@
    <slot>updateAuto()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>170</x>
-     <y>379</y>
+     <x>197</x>
+     <y>326</y>
     </hint>
     <hint type="destinationlabel">
-     <x>-66</x>
+     <x>0</x>
      <y>398</y>
     </hint>
    </hints>
@@ -1479,12 +1493,76 @@
    <slot>updateAuto()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>33</x>
-     <y>455</y>
+     <x>34</x>
+     <y>382</y>
     </hint>
     <hint type="destinationlabel">
-     <x>-6</x>
+     <x>0</x>
      <y>460</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_6</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setTextureSize256()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>16</x>
+     <y>341</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>446</x>
+     <y>346</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setTextureSize512()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>71</x>
+     <y>349</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>402</x>
+     <y>399</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_5</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setTextureSize1024()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>122</x>
+     <y>347</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>390</x>
+     <y>368</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_4</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setTextureSize2048()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>176</x>
+     <y>345</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>412</x>
+     <y>440</y>
     </hint>
    </hints>
   </connection>
@@ -1492,7 +1570,6 @@
  <slots>
   <slot>addTiles()</slot>
   <slot>deleteSelectedTiles()</slot>
-  <slot>setTextureSize128()</slot>
   <slot>setTextureSize256()</slot>
   <slot>setTextureSize512()</slot>
   <slot>setTextureSize1024()</slot>
@@ -1502,5 +1579,6 @@
   <slot>swapSizes()</slot>
   <slot>clearTiles()</slot>
   <slot>updateAuto()</slot>
+  <slot>setTextureSize2048()</slot>
  </slots>
 </ui>
