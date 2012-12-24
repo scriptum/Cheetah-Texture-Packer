@@ -141,7 +141,7 @@ void MainWindow::packerUpdate()
     packer.border.l = ui->borderLeft->value();
     packer.border.r = ui->borderRight->value();
     packer.border.b = ui->borderBottom->value();
-    packer.trim = ui->trim->isChecked();
+    packer.trim = ui->trim->currentIndex();
     packer.merge = ui->merge->isChecked();
     packer.mergeBF = false;
     packer.rotate = ui->rotationStrategy->currentIndex();
@@ -327,10 +327,10 @@ void MainWindow::packerUpdate()
 //    }
 }
 
-void MainWindow::setTextureSize128()
+void MainWindow::setTextureSize2048()
 {
-    ui->textureW->setValue(128);
-    ui->textureH->setValue(128);
+    ui->textureW->setValue(2048);
+    ui->textureH->setValue(2048);
 }
 
 void MainWindow::setTextureSize256()

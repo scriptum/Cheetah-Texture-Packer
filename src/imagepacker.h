@@ -53,7 +53,8 @@ public:
     quint64 area, summArea, neededArea;
     int missingImages;
     int mergedImages;
-    bool ltr, trim, merge, mergeBF;
+    bool ltr, merge, mergeBF;
+    int trim;
     border_t border;
     int rotate;
     int sortOrder;
