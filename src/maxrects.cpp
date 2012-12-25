@@ -7,19 +7,19 @@ MaxRects::MaxRects()
 QPoint MaxRects::insertNode(inputImage * input)
 {
     int i, j;
-    int min = 999999999, mini = -1, m, minbuf;
+    int min = 999999999, mini = -1, m;
     QSize img = input->sizeCurrent;
 //    if(img.width() == w) img.setWidth(img.width() - border->l - border->r);
 //    if(img.height() == h) img.setHeight(img.height() - border->t - border->b);
     if(img.width() == 0 || img.height() == 0)
         return QPoint(0,0);
-    static int nextx = 0, nexty = 0, prevx;
-//    static bool ltr = true;
-    bool leftNeighbor, rightNeighbor, _leftNeighbor, _rightNeighbor, rotated, bestIsRotated = false;
+    bool leftNeighbor = false, rightNeighbor = false;
+    bool _leftNeighbor, _rightNeighbor;
+    bool rotated, bestIsRotated = false;
     for(i = 0; i < F.size(); i++)
     {
-        if(F.at(i).r.width() >= img.width() && F.at(i).r.height() >= img.height() ||
-           F.at(i).r.width() >= img.height() && F.at(i).r.height() >= img.width())
+        if((F.at(i).r.width() >= img.width() && F.at(i).r.height() >= img.height()) ||
+           (F.at(i).r.width() >= img.height() && F.at(i).r.height() >= img.width()))
         {
             rotated = false;
             m = 0;
@@ -84,7 +84,6 @@ QPoint MaxRects::insertNode(inputImage * input)
                 img.transpose();
         }
     }
-    minbuf = min;
     if(bestIsRotated)
     {
         img.transpose();
@@ -95,7 +94,6 @@ QPoint MaxRects::insertNode(inputImage * input)
     {
         i = mini;
         MaxRectsNode n0;
-        int k;
         QRect buf(F.at(i).r.x(), F.at(i).r.y(), img.width(), img.height());
         if(heuristic == ImagePacker::TL) {
             if(!leftNeighbor && F.at(i).r.x() != 0 && F.at(i).r.width() + F.at(i).r.x() == w)
@@ -105,10 +103,6 @@ QPoint MaxRects::insertNode(inputImage * input)
         }
         n0.r = buf;
         R << buf;
-//        n0.i = img;
-        nextx = n0.r.x() + n0.r.width();
-        nexty = F.at(i).r.y() + img.height();
-        prevx = n0.r.x();
         if(F.at(i).r.width() > img.width())
         {
             MaxRectsNode n;
