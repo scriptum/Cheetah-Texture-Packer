@@ -40,7 +40,7 @@ public:
     QList<QSize> bins;
     ImagePacker();
     bool compareImages(QImage* img1, QImage* img2, int* i, int *j);
-    void pack(int packMethod, int heuristic, uint w = 512, uint h = 512);
+    void pack(int heur, int w, int h = 512);
     QRect crop(QImage*);
     void sort();
     void addItem(QImage img, void * data);

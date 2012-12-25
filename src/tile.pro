@@ -20,7 +20,6 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     view.h \
     imagepacker.h \
-    guillotine.h \
     maxrects.h
 FORMS    += mainwindow.ui
 

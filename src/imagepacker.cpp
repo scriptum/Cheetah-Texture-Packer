@@ -1,5 +1,4 @@
 #include "imagepacker.h"
-#include "guillotine.h"
 #include <QDebug>
 #include "maxrects.h"
 ImagePacker::ImagePacker()
@@ -8,13 +7,12 @@ ImagePacker::ImagePacker()
 }
 
 //pack images, return list of positions
-void ImagePacker::pack(int packMethod, int heur, uint w, uint h)
+void ImagePacker::pack(int heur, int w, int h)
 {
     realculateDuplicates();
-    int i, j, x, y;
     summArea = 0;
     QSize size;
-    for(i = 0; i < images.size(); i++)
+    for(int i = 0; i < images.size(); i++)
     {
         images.operator [](i).pos = QPoint(999999, 999999);
         if(trim)
@@ -96,7 +94,7 @@ void ImagePacker::pack(int packMethod, int heur, uint w, uint h)
         currentBin = &binsBuffer.last();
         added = 0;
         areaBuf = 0;
-        for(i = 0; i < images.size(); i++)
+        for(int i = 0; i < images.size(); i++)
         {
             if(QPoint(999999, 999999) != images.at(i).pos) continue;
             if(images.at(i).duplicateId == NULL || !merge)
@@ -115,10 +113,9 @@ void ImagePacker::pack(int packMethod, int heur, uint w, uint h)
                     neededArea += images.at(i).sizeCurrent.width() * images.at(i).sizeCurrent.height();
             }
         }
-        qDebug() << W << H;
         if(W * H < w * h && missingImages)
         {
-            for(i = 0; i < images.size(); i++)
+            for(int i = 0; i < images.size(); i++)
             {
                 if(images.at(i).textureId == binIndex)
                     images.operator [](i).pos = QPoint(999999, 999999);
@@ -151,7 +148,7 @@ void ImagePacker::pack(int packMethod, int heur, uint w, uint h)
         }
     }
     if(merge)
-        for(i = 0; i < images.size(); i++)
+        for(int i = 0; i < images.size(); i++)
             if(images.at(i).duplicateId != NULL)
             {
                 images.operator [](i).pos = find(images.at(i).duplicateId)->pos;

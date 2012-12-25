@@ -13,7 +13,6 @@ QRect ImagePacker::crop(QImage *img)
     //QImage im;
     bool t;
     //crop all
-    qDebug(" ---- %d\n", trim);
     if(trim == 2)
     {
         //    qDebug("%d", img->depth());

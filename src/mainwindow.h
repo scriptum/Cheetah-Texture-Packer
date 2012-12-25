@@ -5,7 +5,10 @@
 #include <QDropEvent>
 #include <QUrl>
 #include <QDrag>
+#include <QListWidget>
 #include "imagepacker.h"
+
+extern QStringList imageExtensions;
 
 namespace Ui {
 class MainWindow;
@@ -22,7 +25,6 @@ public:
 private:
     Ui::MainWindow *ui;
     void RecurseDirectory(const QString &dir);
-    QStringList imageExtensions;
     QString topImageDir;
     ImagePacker packer;
     QList<packedImage> packedImageList;
@@ -30,6 +32,12 @@ private:
     int recursiveLoaderCounter;
     bool recursiveLoaderDone;
     QPixmap pattern;
+    void addDir(QString dir);
+    struct packerData {
+        QListWidgetItem * listItem;
+        QString path;
+    };
+
 protected:
     void dropEvent(QDropEvent *event);
     void dragEnterEvent(QDragEnterEvent *event);
