@@ -7,6 +7,14 @@
 QT       += core gui
 
 TARGET = tile
+
+QT_VERSION=$$[QT_VERSION]
+
+contains(QT_VERSION, "^5.*") {
+  QT += widgets
+} else {
+}
+
 TEMPLATE = app
 
 SOURCES += main.cpp\
