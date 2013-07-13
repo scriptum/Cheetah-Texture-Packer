@@ -34,7 +34,7 @@ void View::updatePixmap(const QList<QImage> &images)
 void View::rescale(QString s)
 {
     bool ok;
-    int sscale = atoi(s.toAscii());
+    int sscale = atoi(s.toLatin1());
 //    if (ok)
     {
 //        scaleBox->setEditText(QString::number(sscale) + QString("%"));
