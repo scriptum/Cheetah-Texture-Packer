@@ -13,6 +13,16 @@ bool ImageCompareByArea(const inputImage i1, const inputImage i2)
     return i1.sizeCurrent.height() * i1.sizeCurrent.width() > i2.sizeCurrent.height() * i2.sizeCurrent.width();
 }
 
+bool ImageCompareByMax(const inputImage i1, const inputImage i2)
+{
+    int first = i1.sizeCurrent.height()>i1.sizeCurrent.width()?i1.sizeCurrent.height():i1.sizeCurrent.width();
+    int second = i2.sizeCurrent.height()>i2.sizeCurrent.width()?i2.sizeCurrent.height():i2.sizeCurrent.width();
+    if(first == second)
+        return ImageCompareByArea(i1,i2);
+    else
+        return first > second;
+}
+
 void ImagePacker::sort()
 {
     switch(sortOrder)
@@ -25,6 +35,9 @@ void ImagePacker::sort()
         break;
     case 3:
         qSort(images.begin(), images.end(), ImageCompareByArea);
+        break;
+    case 4:
+        qSort(images.begin(), images.end(), ImageCompareByMax);
         break;
     }
 }
