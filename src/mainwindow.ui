@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>515</width>
-    <height>624</height>
+    <width>821</width>
+    <height>698</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -111,8 +111,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>122</width>
-           <height>585</height>
+           <width>325</width>
+           <height>666</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -165,7 +165,7 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>109</width>
+     <width>170</width>
      <height>270</height>
     </size>
    </property>
@@ -327,10 +327,16 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
+   <property name="minimumSize">
+    <size>
+     <width>242</width>
+     <height>367</height>
+    </size>
+   </property>
    <property name="maximumSize">
     <size>
      <width>9999</width>
-     <height>353</height>
+     <height>367</height>
     </size>
    </property>
    <property name="floating">
@@ -355,7 +361,7 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_4">
        <property name="spacing">
@@ -537,45 +543,113 @@
       </layout>
      </item>
      <item>
-      <widget class="QCheckBox" name="merge">
-       <property name="toolTip">
-        <string>Merge images if they are eqal.</string>
+      <layout class="QHBoxLayout" name="horizontalLayout_16">
+       <property name="spacing">
+        <number>0</number>
        </property>
-       <property name="text">
-        <string>Merge</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
+       <item>
+        <widget class="QCheckBox" name="merge">
+         <property name="toolTip">
+          <string>Merge images if they are eqal.</string>
+         </property>
+         <property name="text">
+          <string>Merge</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="autosize">
+         <property name="toolTip">
+          <string>Merge images if they are eqal.</string>
+         </property>
+         <property name="text">
+          <string>Auto size</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="square">
+         <property name="toolTip">
+          <string>Merge images if they are eqal.</string>
+         </property>
+         <property name="text">
+          <string>Square</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_8">
        <item>
         <widget class="QLabel" name="label_crop">
          <property name="text">
-          <string>Crop mode:</string>
+          <string>Crop alpha threshold:</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="trim">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove empty area around each image.&lt;/p&gt;&lt;p&gt;Crop off - disable any cropping&lt;/p&gt;&lt;p&gt;Crop alpha - crop images only by alpha channel&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <widget class="QSpinBox" name="alphaThreshold">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-         <property name="currentIndex">
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="maximum">
+          <number>255</number>
+         </property>
+         <property name="singleStep">
           <number>1</number>
          </property>
-         <item>
-          <property name="text">
-           <string>Crop off</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Crop alpha</string>
-          </property>
-         </item>
+         <property name="value">
+          <number>10</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_15">
+       <item>
+        <widget class="QLabel" name="label_crop_2">
+         <property name="text">
+          <string>Autosize min fill rate:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="minFillRate">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="singleStep">
+          <number>1</number>
+         </property>
+         <property name="value">
+          <number>80</number>
+         </property>
         </widget>
        </item>
       </layout>
@@ -694,7 +768,7 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rotation strategy. Packer may rotate images by following formulas:&lt;/p&gt;&lt;p&gt;- Never - disable rotation&lt;/p&gt;&lt;p&gt;- Height / 2 &amp;lt; Width &amp;lt; Height&lt;/p&gt;&lt;p&gt;- Width &amp;gt; Height&lt;/p&gt;&lt;p&gt;- Width &amp;gt; 2 * Height&lt;/p&gt;&lt;p&gt;- Width / 2 &amp;lt; Height &amp;lt; Width&lt;/p&gt;&lt;p&gt;- Height &amp;gt; Width&lt;/p&gt;&lt;p&gt;- Height &amp;gt; 2 * Width&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rotation strategy. Packer may rotate images by following formulas:&lt;/p&gt;&lt;p&gt;- Only when necessary - rotate only when necessary&lt;/p&gt;&lt;p&gt;- Never - disable rotation&lt;/p&gt;&lt;p&gt;- Height / 2 &amp;lt; Width &amp;lt; Height&lt;/p&gt;&lt;p&gt;- Width &amp;gt; Height&lt;/p&gt;&lt;p&gt;- Width &amp;gt; 2 * Height&lt;/p&gt;&lt;p&gt;- Width / 2 &amp;lt; Height &amp;lt; Width&lt;/p&gt;&lt;p&gt;- Height &amp;gt; Width&lt;/p&gt;&lt;p&gt;- Height &amp;gt; 2 * Width&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="currentIndex">
           <number>1</number>
@@ -702,6 +776,11 @@
          <item>
           <property name="text">
            <string>Never</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Only when necessary</string>
           </property>
          </item>
          <item>
@@ -753,7 +832,7 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sorting of images significantly increases packing effectivity.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>4</number>
          </property>
          <item>
           <property name="text">
@@ -773,6 +852,11 @@
          <item>
           <property name="text">
            <string>Area</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Max</string>
           </property>
          </item>
         </widget>
@@ -1375,22 +1459,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>merge</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>updateAuto()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>159</x>
-     <y>382</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>0</x>
-     <y>536</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>borderBottom</sender>
    <signal>valueChanged(int)</signal>
    <receiver>MainWindow</receiver>
@@ -1487,22 +1555,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>trim</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>updateAuto()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>34</x>
-     <y>382</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>0</x>
-     <y>460</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>pushButton_6</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
@@ -1563,6 +1615,86 @@
     <hint type="destinationlabel">
      <x>412</x>
      <y>440</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>alphaThreshold</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>updateAplhaThreshold()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>191</x>
+     <y>453</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>348</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>merge</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>updateAuto()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>52</x>
+     <y>427</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>348</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>autosize</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>updateAuto()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>136</x>
+     <y>427</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>348</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>square</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>updateAuto()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>221</x>
+     <y>427</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>348</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>minFillRate</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>updateAuto()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>189</x>
+     <y>481</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>348</y>
     </hint>
    </hints>
   </connection>
