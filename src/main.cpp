@@ -23,8 +23,8 @@ void printHelp(const char * error = NULL)
         puts(error);
     printf("Usage: packer [-s size] [-o outfile] [options] [file|directory ...]\n\
 Avaiable options:\n\
---size W[xH]               atlas maximum size (if it is not enough - create more than 1 atlas)\n\
--o outfile                 output atlas name\n\
+-s, --size W[xH]           atlas maximum size (if it is not enough - create more than 1 atlas)\n\
+-o, --out-file outfile     output atlas name\n\
 --disable-merge            do not merge similar images\n\
 --disable-crop             do not crop images\n\
 --crop-threshold value     crop threshold (0-255)\n\
@@ -35,7 +35,7 @@ Avaiable options:\n\
 --autosize-threshold value auto-optimize atlas size (0-100, 0 - disabled)\n\
 --min-texture-size WxH     auto-optimize minimum size\n\
 --sort-order value         select sorting order algorithm (0-4)\n\
--h -? --help               show this help");
+-h, -?, --help             show this help\n");
     if(error)
         exit(1);
 }
@@ -78,6 +78,8 @@ void RecurseDirectory(const QString dir, bool recursion)
     }
 }
 
+#define check_opt(opt) (strncmp(argv[i], opt, sizeof(opt) - 1) == 0)
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -105,9 +107,9 @@ int main(int argc, char *argv[])
         QString outFile = "atlas";
         for (int i = 1; i < argc; ++i)
         {
-            if(strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "-?") == 0)
+            if(check_opt("--help") || check_opt("-h")|| check_opt("-?"))
                 printHelp();
-            else if(strcmp(argv[i], "-s") == 0)
+            else if(check_opt("-s") || check_opt("--size"))
             {
                 ++i;
                 if(i >= argc)
@@ -121,7 +123,7 @@ int main(int argc, char *argv[])
                 }
                 printf("Setting texture size: %dx%d\n", textureWidth, textureHeight);
             }
-            else if(strcmp(argv[i], "-o") == 0)
+            else if(check_opt("-o") || check_opt("--out-file"))
             {
                 ++i;
                 if(i >= argc)
@@ -130,23 +132,23 @@ int main(int argc, char *argv[])
                 outFile = info.baseName();
                 outDir = info.absolutePath();
             }
-            else if(strcmp(argv[i], "--disable-merge") == 0)
+            else if(check_opt("--disable-merge"))
             {
                 merge = false;
             }
-            else if(strcmp(argv[i], "--disable-crop") == 0)
+            else if(check_opt("--disable-crop"))
             {
                 crop = false;
             }
-            else if(strcmp(argv[i], "--disable-recursion") == 0)
+            else if(check_opt("--disable-recursion"))
             {
                 recursion = false;
             }
-            else if(strcmp(argv[i], "--square") == 0)
+            else if(check_opt("--square"))
             {
                 square = true;
             }
-            else if(strcmp(argv[i], "--autosize-threshold") == 0)
+            else if(check_opt("--autosize-threshold"))
             {
                 autosize = true;
                 ++i;
@@ -159,7 +161,7 @@ int main(int argc, char *argv[])
                     printHelp("Wrong autosize threshold");
                 }
             }
-            else if(strcmp(argv[i], "--min-texture-size") == 0)
+            else if(check_opt("--min-texture-size"))
             {
                 ++i;
                 if(i >= argc)
@@ -172,7 +174,7 @@ int main(int argc, char *argv[])
                         minTextureSizeY = minTextureSizeX;
                 }
             }
-            else if(strcmp(argv[i], "--crop-threshold") == 0)
+            else if(check_opt("--crop-threshold"))
             {
                 ++i;
                 if(i >= argc)
@@ -184,7 +186,7 @@ int main(int argc, char *argv[])
                     printHelp("Wrong crop threshold");
                 }
             }
-            else if(strcmp(argv[i], "--sort-order") == 0)
+            else if(check_opt("--sort-order"))
             {
                 ++i;
                 if(i >= argc)
@@ -196,11 +198,11 @@ int main(int argc, char *argv[])
                     printHelp("Wrong sortorder must be from 0 to 4");
                 }
             }
-            else if(strcmp(argv[i], "--disable-border") == 0)
+            else if(check_opt("--disable-border"))
             {
                 border = false;
             }
-            else if(strcmp(argv[i], "--enable-rotate") == 0)
+            else if(check_opt("--enable-rotate"))
             {
                 rotate = true;
             }
