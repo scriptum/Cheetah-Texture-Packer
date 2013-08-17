@@ -21,7 +21,21 @@ void printHelp(const char * error = NULL)
 {
     if(error)
         puts(error);
-    printf("Usage: packer [-s size] [-o outfile] [--disable-merge] [--disable-crop] [--disable-border] [--enable-rotate] [file|directory ...]\n");
+    printf("Usage: packer [-s size] [-o outfile] [options] [file|directory ...]\n\
+Avaiable options:\n\
+--size W[xH]               atlas maximum size (if it is not enough - create more than 1 atlas)\n\
+-o outfile                 output atlas name\n\
+--disable-merge            do not merge similar images\n\
+--disable-crop             do not crop images\n\
+--crop-threshold value     crop threshold (0-255)\n\
+--disable-border           do not make 1px border\n\
+--enable-rotate            enable sprites rotation\n\
+--disable-recursion        disable recursive scan (pack only given directory)\n\
+--square                   force to make square textures\n\
+--autosize-threshold value auto-optimize atlas size (0-100, 0 - disabled)\n\
+--min-texture-size WxH     auto-optimize minimum size\n\
+--sort-order value         select sorting order algorithm (0-4)\n\
+-h -? --help               show this help");
     if(error)
         exit(1);
 }
@@ -91,7 +105,7 @@ int main(int argc, char *argv[])
         QString outFile = "atlas";
         for (int i = 1; i < argc; ++i)
         {
-            if(strcmp(argv[i], "--help") == 0)
+            if(strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "-?") == 0)
                 printHelp();
             else if(strcmp(argv[i], "-s") == 0)
             {
@@ -128,16 +142,16 @@ int main(int argc, char *argv[])
             {
                 recursion = false;
             }
-            else if(strcmp(argv[i], "--disable-not-square") == 0)
+            else if(strcmp(argv[i], "--square") == 0)
             {
                 square = true;
             }
-            else if(strcmp(argv[i], "-autosize-threshold") == 0)
+            else if(strcmp(argv[i], "--autosize-threshold") == 0)
             {
                 autosize = true;
                 ++i;
                 if(i >= argc)
-                    printHelp("Argument needed for option -autosize-threshold");
+                    printHelp("Argument needed for option --autosize-threshold");
                 if ((sscanf(argv[i], "%d", &autosizeThreshold) != 1) ||
                     (autosizeThreshold < 0) ||
                     (autosizeThreshold > 100))
@@ -145,11 +159,11 @@ int main(int argc, char *argv[])
                     printHelp("Wrong autosize threshold");
                 }
             }
-            else if(strcmp(argv[i], "-min-texture-size") == 0)
+            else if(strcmp(argv[i], "--min-texture-size") == 0)
             {
                 ++i;
                 if(i >= argc)
-                    printHelp("Argument needed for option -autosize-threshold");
+                    printHelp("Argument needed for option -min-texture-size");
                 if(sscanf(argv[i], "%dx%d", &minTextureSizeX, &minTextureSizeY) != 2)
                 {
                     if(sscanf(argv[i], "%d", &minTextureSizeX) != 1)
@@ -158,11 +172,11 @@ int main(int argc, char *argv[])
                         minTextureSizeY = minTextureSizeX;
                 }
             }
-            else if(strcmp(argv[i], "-crop-threshold") == 0)
+            else if(strcmp(argv[i], "--crop-threshold") == 0)
             {
                 ++i;
                 if(i >= argc)
-                    printHelp("Argument needed for option -crop-threshold");
+                    printHelp("Argument needed for option --crop-threshold");
                 if ((sscanf(argv[i], "%d", &cropThreshold) != 1) ||
                     (cropThreshold < 0) ||
                     (cropThreshold > 255))
@@ -170,11 +184,11 @@ int main(int argc, char *argv[])
                     printHelp("Wrong crop threshold");
                 }
             }
-            else if(strcmp(argv[i], "-sortorder") == 0)
+            else if(strcmp(argv[i], "--sort-order") == 0)
             {
                 ++i;
                 if(i >= argc)
-                    printHelp("Argument needed for option -sortorder");
+                    printHelp("Argument needed for option --sort-order");
                 if ((sscanf(argv[i], "%d", &sortorder) != 1) ||
                     (sortorder < 0) ||
                     (sortorder > 4))
