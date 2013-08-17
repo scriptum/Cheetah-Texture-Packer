@@ -138,8 +138,10 @@ void MainWindow::packerUpdate()
     packer.border.l = ui->borderLeft->value();
     packer.border.r = ui->borderRight->value();
     packer.border.b = ui->borderBottom->value();
-    packer.trim = ui->trim->currentIndex();
     packer.merge = ui->merge->isChecked();
+    packer.square = ui->square->isChecked();
+    packer.autosize = ui->autosize->isChecked();
+    packer.minFillRate = ui->minFillRate->value();
     packer.mergeBF = false;
     packer.rotate = ui->rotationStrategy->currentIndex();
     int textureWidth = ui->textureW->value(), textureHeight = ui->textureH->value();
@@ -151,6 +153,7 @@ void MainWindow::packerUpdate()
 
 
     packer.pack(heuristic, textureWidth, textureHeight);
+
     QList<QImage> textures;
     for (i = 0; i < packer.bins.size(); i++)
     {
@@ -189,7 +192,7 @@ void MainWindow::packerUpdate()
                     QSize size, sizeOrig;
                     QRect crop;
                     sizeOrig = packer.images.at(i).size;
-                    if(!packer.trim)
+                    if(!packer.cropThreshold)
                     {
                         size = packer.images.at(i).size;
                         crop = QRect(0,0,size.width(),size.height());
@@ -202,8 +205,7 @@ void MainWindow::packerUpdate()
                     if(packer.images.at(i).rotated)
                     {
                         size.transpose();
-                        crop = QRect(packer.images.at(i).size.height() - crop.y() - crop.height(),
-                                     crop.x(), crop.height(), crop.width());
+                        crop = QRect(crop.y(), crop.x(), crop.height(), crop.width());
                     }
                     out << (((packerData*)(packer.images.at(i).id))->listItem)->text() <<
                            "\t" <<
@@ -236,7 +238,7 @@ void MainWindow::packerUpdate()
                    packer.images.at(i).pos.y() + packer.border.t);
         QSize size;
         QRect crop;
-        if(!packer.trim)
+        if(!packer.cropThreshold)
         {
             size = packer.images.at(i).size;
             crop = QRect(0,0,size.width(),size.height());
@@ -279,7 +281,7 @@ void MainWindow::packerUpdate()
                          (packer.missingImages == 0 ? QString::number(packer.missingImages) + tr(" images missed,") :
                                                       QString("<font color=red><b>") + QString::number(packer.missingImages) + tr(" images missed,") + "</b></font>") +
                          " " + QString::number(packer.mergedImages) + tr(" images merged, needed area: ") +
-                         QString::number(percent2) + "%.");
+                         QString::number(percent2) + "%." + tr(" KBytes: ") + QString::number(area*4/1024));
     if(exporting)
     {
         const char * format = qPrintable(outFormat);
@@ -331,6 +333,12 @@ void MainWindow::setTextureSize1024()
 {
     ui->textureW->setValue(1024);
     ui->textureH->setValue(1024);
+}
+void MainWindow::updateAplhaThreshold()
+{
+    packer.cropThreshold = ui->alphaThreshold->value();
+    packer.UpdateCrop();
+    updateAuto();
 }
 
 void MainWindow::getFolder()

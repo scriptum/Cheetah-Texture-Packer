@@ -60,6 +60,7 @@ public slots:
     void setTextureSize256();
     void setTextureSize512();
     void setTextureSize1024();
+    void updateAplhaThreshold();
     void getFolder();
     void exportImage();
     void swapSizes();

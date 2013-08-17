@@ -8,11 +8,16 @@ View::View(QWidget *parent)
 void View::paintEvent(QPaintEvent * /* event */)
 {
     QPainter painter(this);
-    this->setMinimumSize(size.width()*scale, (size.height() + 10)*textures.count()*scale);
+    int minHeight = 0;
+    for(int i = 0; i < textures.count(); i++)
+        minHeight+=(textures[i].size().height()+10)*scale;
+    this->setMinimumSize(size.width()*scale, minHeight);
+    int pos = 0;
     for(int i = 0; i < textures.count(); i++)
     {
-        painter.fillRect(0, i * (size.height() + 10)*scale, textures.at(i).width()*scale, textures.at(i).height()*scale, Qt::magenta);
-        painter.drawPixmap(0, i * (size.height() + 10)*scale, textures.at(i).width()*scale, textures.at(i).height()*scale, textures.at(i));
+        painter.fillRect(0, pos, textures.at(i).width()*scale, textures.at(i).height()*scale, Qt::magenta);
+        painter.drawPixmap(0, pos, textures.at(i).width()*scale, textures.at(i).height()*scale, textures.at(i));
+        pos+=(textures.at(i).height()+10)*scale;
     }
 }
 
