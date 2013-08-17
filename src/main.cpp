@@ -33,7 +33,7 @@ struct packerData
 ImagePacker *mainPacker;
 QString topImageDir;
 
-void RecurseDirectory(const QString dir)
+void RecurseDirectory(const QString dir, bool recursion)
 {
     QDir dirEnt(dir);
     QFileInfoList list = dirEnt.entryInfoList();
@@ -44,11 +44,11 @@ void RecurseDirectory(const QString dir)
         QString filePath = info.filePath();
         QString fileExt = info.suffix().toLower();
         QString name = dir + QDir::separator();
-        if (info.isDir())
+        if (recursion && info.isDir())
         {
             // recursive
             if (info.fileName() != ".." && info.fileName() != ".")
-                RecurseDirectory(filePath);
+                RecurseDirectory(filePath, recursion);
         }
         else if(imageExtensions.contains(fileExt))
         {
@@ -77,6 +77,14 @@ int main(int argc, char *argv[])
         bool crop = true;
         bool border = true;
         bool rotate = false;
+        bool recursion = true;
+        bool square = false;
+        bool autosize = false;
+        int cropThreshold = 1;
+        int autosizeThreshold = 80;
+        int minTextureSizeX = 32;
+        int minTextureSizeY = 32;
+        int sortorder = 4;
         ImagePacker packer;
         mainPacker = &packer;
         QString outDir = QDir::currentPath();
@@ -116,6 +124,64 @@ int main(int argc, char *argv[])
             {
                 crop = false;
             }
+            else if(strcmp(argv[i], "--disable-recursion") == 0)
+            {
+                recursion = false;
+            }
+            else if(strcmp(argv[i], "--disable-not-square") == 0)
+            {
+                square = true;
+            }
+            else if(strcmp(argv[i], "-autosize-threshold") == 0)
+            {
+                autosize = true;
+                ++i;
+                if(i >= argc)
+                    printHelp("Argument needed for option -autosize-threshold");
+                if ((sscanf(argv[i], "%d", &autosizeThreshold) != 1) ||
+                    (autosizeThreshold < 0) ||
+                    (autosizeThreshold > 100))
+                {
+                    printHelp("Wrong autosize threshold");
+                }
+            }
+            else if(strcmp(argv[i], "-min-texture-size") == 0)
+            {
+                ++i;
+                if(i >= argc)
+                    printHelp("Argument needed for option -autosize-threshold");
+                if(sscanf(argv[i], "%dx%d", &minTextureSizeX, &minTextureSizeY) != 2)
+                {
+                    if(sscanf(argv[i], "%d", &minTextureSizeX) != 1)
+                        printHelp("Wrong texture size format");
+                    else
+                        minTextureSizeY = minTextureSizeX;
+                }
+            }
+            else if(strcmp(argv[i], "-crop-threshold") == 0)
+            {
+                ++i;
+                if(i >= argc)
+                    printHelp("Argument needed for option -crop-threshold");
+                if ((sscanf(argv[i], "%d", &cropThreshold) != 1) ||
+                    (cropThreshold < 0) ||
+                    (cropThreshold > 255))
+                {
+                    printHelp("Wrong crop threshold");
+                }
+            }
+            else if(strcmp(argv[i], "-sortorder") == 0)
+            {
+                ++i;
+                if(i >= argc)
+                    printHelp("Argument needed for option -sortorder");
+                if ((sscanf(argv[i], "%d", &sortorder) != 1) ||
+                    (sortorder < 0) ||
+                    (sortorder > 4))
+                {
+                    printHelp("Wrong sortorder must be from 0 to 4");
+                }
+            }
             else if(strcmp(argv[i], "--disable-border") == 0)
             {
                 border = false;
@@ -138,13 +204,13 @@ int main(int argc, char *argv[])
                 else if(file.isDir())
                 {
                     topImageDir = file.absoluteFilePath();
-                    RecurseDirectory(file.absoluteFilePath());
+                    RecurseDirectory(file.absoluteFilePath(),recursion);
                 }
             }
         }
 
         qDebug() << "Saving to dir" << outDir << "and file" << outFile;
-        packer.sortOrder = 2;
+        packer.sortOrder = sortorder;
         packer.border.t = 0;
         packer.border.l = 0;
         if(border)
@@ -157,10 +223,15 @@ int main(int argc, char *argv[])
             packer.border.r = 0;
             packer.border.b = 0;
         }
-        packer.trim = crop;
+        packer.cropThreshold = crop?cropThreshold:0;
+        packer.minFillRate = autosize?autosizeThreshold:0;
+        packer.minTextureSizeX = minTextureSizeX;
+        packer.minTextureSizeY = minTextureSizeY;
         packer.merge = merge;
         packer.mergeBF = false;
         packer.rotate = rotate;
+        packer.square = square;
+        packer.autosize = autosize;
         int heuristic = 1;
 
         QString outFormat("PNG");
@@ -172,6 +243,7 @@ int main(int argc, char *argv[])
         }
 
         packer.pack(heuristic, textureWidth, textureHeight);
+
         QList<QImage> textures;
         for (int i = 0; i < packer.bins.size(); i++)
         {
@@ -208,7 +280,7 @@ int main(int argc, char *argv[])
                     QSize size, sizeOrig;
                     QRect crop;
                     sizeOrig = packer.images.at(i).size;
-                    if(!packer.trim)
+                    if(!packer.cropThreshold)
                     {
                         size = packer.images.at(i).size;
                         crop = QRect(0,0,size.width(),size.height());
@@ -221,8 +293,7 @@ int main(int argc, char *argv[])
                     if(packer.images.at(i).rotated)
                     {
                         size.transpose();
-                        crop = QRect(packer.images.at(i).size.height() - crop.y() - crop.height(),
-                                     crop.x(), crop.height(), crop.width());
+                        crop = QRect(crop.y(), crop.x(), crop.height(), crop.width());
                     }
                     out << ((packerData*)(packer.images.at(i).id))->file <<
                            "\t" <<
@@ -250,7 +321,7 @@ int main(int argc, char *argv[])
                        packer.images.at(i).pos.y() + packer.border.t);
             QSize size;
             QRect crop;
-            if(!packer.trim)
+            if(!packer.cropThreshold)
             {
                 size = packer.images.at(i).size;
                 crop = QRect(0,0,size.width(),size.height());
@@ -281,8 +352,8 @@ int main(int argc, char *argv[])
             area += textures.at(i).width() * textures.at(i).height();
         float percent = (((float)packer.area / (float)area) * 100.0f);
 //        float percent2 = (float)(((float)packer.neededArea / (float)area) * 100.0f );
-        printf("Atlas generated. %f%% filled, %d images missed, %d merged.\n",
-               percent, packer.missingImages, packer.mergedImages);
+        printf("Atlas generated. %f%% filled, %d images missed, %d merged, %d KBytes\n",
+               percent, packer.missingImages, packer.mergedImages, (int)((area*4)/1024));
 
 //        const char * format = qPrintable(outFormat);
         for(int i = 0; i < textures.count(); i++)
