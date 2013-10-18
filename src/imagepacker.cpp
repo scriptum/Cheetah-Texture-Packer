@@ -4,6 +4,7 @@
 ImagePacker::ImagePacker()
 {
     prevSortOrder = -1;
+    extrude = 1;
     cropThreshold = 10;
     minTextureSizeX = 32;
     minTextureSizeY = 32;
@@ -172,7 +173,7 @@ void ImagePacker::pack(int heur, int w, int h)
     unsigned areaBuf = AddImgesToBins(heur, w, h);
 
     if(areaBuf&&!missingImages)
-        CropLastImage(heur,w,h,true);
+        CropLastImage(heur,w,h,false);
 
     if(merge)
         for(int i = 0; i < images.size(); i++)
@@ -298,9 +299,9 @@ void ImagePacker::SortImages( int w, int h )
             size = images.at(i).crop.size();
         else
             size = images.at(i).size;
-        if(size.width() == w) size.setWidth(size.width() - border.l - border.r);
-        if(size.height() == h) size.setHeight(size.height() - border.t - border.b);
-        size += QSize(border.l + border.r, border.t + border.b);
+        if(size.width() == w) size.setWidth(size.width() - border.l - border.r - 2*extrude);
+        if(size.height() == h) size.setHeight(size.height() - border.t - border.b - 2*extrude);
+        size += QSize(border.l + border.r + 2*extrude, border.t + border.b + 2*extrude);
 
         images.operator [](i).rotated = false;
         if((rotate == WIDTH_GREATHER_HEIGHT && size.width() > size.height()) ||
