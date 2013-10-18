@@ -330,13 +330,13 @@
    <property name="minimumSize">
     <size>
      <width>242</width>
-     <height>367</height>
+     <height>380</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
      <width>9999</width>
-     <height>367</height>
+     <height>380</height>
     </size>
    </property>
    <property name="floating">
@@ -583,6 +583,39 @@
          </property>
          <property name="checked">
           <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_17">
+       <item>
+        <widget class="QLabel" name="label_crop_3">
+         <property name="text">
+          <string>extrude</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="extrude">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="maximum">
+          <number>10</number>
+         </property>
+         <property name="singleStep">
+          <number>1</number>
+         </property>
+         <property name="value">
+          <number>1</number>
          </property>
         </widget>
        </item>
@@ -1691,6 +1724,22 @@
     <hint type="sourcelabel">
      <x>189</x>
      <y>481</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>348</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>extrude</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>updateAuto()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>158</x>
+     <y>359</y>
     </hint>
     <hint type="destinationlabel">
      <x>410</x>
