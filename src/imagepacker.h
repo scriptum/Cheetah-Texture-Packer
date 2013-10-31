@@ -77,6 +77,7 @@ public:
     bool ltr, merge, square, autosize, mergeBF;
     int cropThreshold;
     border_t border;
+    int extrude;
     int rotate;
     int sortOrder;
     int minFillRate;
