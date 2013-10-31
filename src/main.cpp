@@ -29,6 +29,8 @@ Avaiable options:\n\
 --disable-crop             do not crop images\n\
 --crop-threshold value     crop threshold (0-255)\n\
 --disable-border           do not make 1px border\n\
+--border-size              set border size in pixels\n\
+--extrude-size             set extrude size in pixels\n\
 --enable-rotate            enable sprites rotation\n\
 --disable-recursion        disable recursive scan (pack only given directory)\n\
 --square                   force to make square textures\n\
@@ -91,7 +93,8 @@ int main(int argc, char *argv[])
         int textureHeight = 512;
         bool merge = true;
         bool crop = true;
-        bool border = true;
+        int border = 1;
+        int extrude = 0;
         bool rotate = false;
         bool recursion = true;
         bool square = false;
@@ -161,6 +164,26 @@ int main(int argc, char *argv[])
                     printHelp("Wrong autosize threshold");
                 }
             }
+            else if(check_opt("--extrude-size"))
+            {
+                ++i;
+                if(i >= argc)
+                    printHelp("Argument needed for option --extrude-size");
+                if ((sscanf(argv[i], "%d", &extrude) != 1) || (extrude < 0) )
+                {
+                    printHelp("Wrong extrude size");
+                }
+            }
+            else if(check_opt("--border-size"))
+            {
+                ++i;
+                if(i >= argc)
+                    printHelp("Argument needed for option --border-size");
+                if ((sscanf(argv[i], "%d", &border) != 1) || (border < 0) )
+                {
+                    printHelp("Wrong border size");
+                }
+            }
             else if(check_opt("--min-texture-size"))
             {
                 ++i;
@@ -200,7 +223,7 @@ int main(int argc, char *argv[])
             }
             else if(check_opt("--disable-border"))
             {
-                border = false;
+                border = 0;
             }
             else if(check_opt("--enable-rotate"))
             {
@@ -229,16 +252,9 @@ int main(int argc, char *argv[])
         packer.sortOrder = sortorder;
         packer.border.t = 0;
         packer.border.l = 0;
-        if(border)
-        {
-            packer.border.r = 1;
-            packer.border.b = 1;
-        }
-        else
-        {
-            packer.border.r = 0;
-            packer.border.b = 0;
-        }
+        packer.border.r = border;
+        packer.border.b = border;
+        packer.extrude = extrude;
         packer.cropThreshold = crop?cropThreshold:0;
         packer.minFillRate = autosize?autosizeThreshold:0;
         packer.minTextureSizeX = minTextureSizeX;
@@ -291,8 +307,8 @@ int main(int argc, char *argv[])
                 for (int i = 0; i < packer.images.size(); i++)
                 {
                     if(packer.images.at(i).textureId != j) continue;
-                    QPoint pos(packer.images.at(i).pos.x() + packer.border.l,
-                               packer.images.at(i).pos.y() + packer.border.t);
+                    QPoint pos(packer.images.at(i).pos.x() + packer.border.l + packer.extrude,
+                               packer.images.at(i).pos.y() + packer.border.t + packer.extrude);
                     QSize size, sizeOrig;
                     QRect crop;
                     sizeOrig = packer.images.at(i).size;
@@ -360,7 +376,51 @@ int main(int argc, char *argv[])
             if(packer.images.at(i).textureId < packer.bins.size())
             {
                 QPainter p(&textures.operator [](packer.images.at(i).textureId));
-                p.drawImage(pos.x(), pos.y(), img, crop.x(), crop.y(), crop.width(), crop.height());
+                
+                if(packer.extrude)
+                {
+                    QColor color1=QColor::fromRgba(img.pixel(crop.x(), crop.y()));
+                    p.setPen(color1);
+                    p.setBrush(color1);
+                    if(packer.extrude==1)
+                        p.drawPoint(QPoint(pos.x(), pos.y()));
+                    else
+                        p.drawRect(QRect(pos.x(), pos.y(),packer.extrude-1,packer.extrude-1));
+                    
+                    QColor color2=QColor::fromRgba(img.pixel(crop.x(), crop.y() + crop.height()-1));
+                    p.setPen(color2);
+                    p.setBrush(color2);
+                    if(packer.extrude==1)
+                        p.drawPoint(QPoint(pos.x(), pos.y() + crop.height() + packer.extrude));
+                    else
+                        p.drawRect(QRect(pos.x(), pos.y() + crop.height() + packer.extrude, packer.extrude-1, packer.extrude-1));
+                    
+                    QColor color3=QColor::fromRgba(img.pixel(crop.x() + crop.width()-1, crop.y()));
+                    p.setPen(color3);
+                    p.setBrush(color3);
+                    if(packer.extrude==1)
+                        p.drawPoint(QPoint(pos.x() + crop.width() + packer.extrude, pos.y()));
+                    else
+                        p.drawRect(QRect(pos.x() + crop.width() + packer.extrude, pos.y(), packer.extrude-1, packer.extrude-1));
+                    
+                    QColor color4=QColor::fromRgba(img.pixel(crop.x() + crop.width()-1, crop.y() + crop.height()-1));
+                    p.setPen(color4);
+                    p.setBrush(color4);
+                    if(packer.extrude==1)
+                        p.drawPoint(QPoint(pos.x() + crop.width() + packer.extrude, pos.y() + crop.height() + packer.extrude));
+                    else
+                        p.drawRect(QRect(pos.x() + crop.width() + packer.extrude, pos.y() + crop.height() + packer.extrude, packer.extrude-1, packer.extrude-1));
+                    
+                    p.drawImage(QRect(pos.x(), pos.y() + packer.extrude, packer.extrude, crop.height()), img, QRect(crop.x(), crop.y(), 1, crop.height()));
+                    p.drawImage(QRect(pos.x() + crop.width() + packer.extrude, pos.y() + packer.extrude, packer.extrude, crop.height()), img, QRect(crop.x() + crop.width() - 1, crop.y(), 1, crop.height()));
+                    
+                    p.drawImage(QRect(pos.x() + packer.extrude, pos.y(), crop.width(), packer.extrude), img, QRect(crop.x(), crop.y(), crop.width(), 1));
+                    p.drawImage(QRect(pos.x() + packer.extrude, pos.y() + crop.height() + packer.extrude, crop.width(), packer.extrude), img, QRect(crop.x(), crop.y() + crop.height() - 1, crop.width(), 1));
+                    
+                    p.drawImage(pos.x() + packer.extrude, pos.y() + packer.extrude, img, crop.x(), crop.y(), crop.width(), crop.height());
+                }
+                else
+                    p.drawImage(pos.x(), pos.y(), img, crop.x(), crop.y(), crop.width(), crop.height());
             }
         }
         qint64 area = 0;

@@ -33,12 +33,18 @@ Here:
 
 Additional command line features
 
-* --disable-recursion //just one folder not subfolder
-* --disable-not-square //only square atlases
-* --autosize-threshold value //use autosize algorithm only if fill rate in percents < value
-* --min-texture-size WidthxHeight //use autosize algorithm only if last texture size > min texture size
-* --crop-threshold value //crop alpha threshold 0-255
-* --sortorder value //sort order line in interface new sort order algorithm MAX
+--disable-merge //do not merge similar images
+--disable-crop //do not crop images
+--disable-recursion //just one folder not subfolder
+--disable-border //do not make border
+--enable-rotate //enable sprites rotation
+--square //only square atlases
+--extrude-size value //size of extrude image in pixels
+--border-size value //border size in pixels
+--autosize-threshold value //use autosize algorithm only if fill rate in percents < value
+--min-texture-size WidthxHeight //use autosize algorithm only if last texture size > min texture size
+--crop-threshold value //crop alpha threshold 0-255
+--sortorder value //sort order line in interface new sort order algorithm MAX
 
 ![Help image](https://github.com/scriptum/UBFG/raw/master/readme.png)
 
