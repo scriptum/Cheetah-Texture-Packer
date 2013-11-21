@@ -33,6 +33,7 @@ Here:
 
 Additional command line features
 
+```
 --disable-merge //do not merge similar images
 --disable-crop //do not crop images
 --disable-recursion //just one folder not subfolder
@@ -45,6 +46,7 @@ Additional command line features
 --min-texture-size WidthxHeight //use autosize algorithm only if last texture size > min texture size
 --crop-threshold value //crop alpha threshold 0-255
 --sortorder value //sort order line in interface new sort order algorithm MAX
+```
 
 ![Help image](https://github.com/scriptum/UBFG/raw/master/readme.png)
 
