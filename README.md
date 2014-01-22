@@ -1,11 +1,13 @@
 Cheetah Texture Packer
 ------------------------------
 
-Just best texture packer:)
+Just best texture packer. It uses the idea of MaxRects bin packing algorithm with aggressive heuristics.
+
+This tool was created as research implementation and never been released. But it works and you can compile this tool for any platform you want.
 
 If you know Russian - welcome: http://www.gamedev.ru/projects/forum/?id=161714
 
-Watch me if you want to see changes:)
+Watch me if you want to see changes :-)
 
 This program uses UBFG's algorithm: https://github.com/scriptum/UBFG
 
@@ -53,3 +55,8 @@ Additional command line features
 Screenshot:
 
 ![Screenshot](https://github.com/scriptum/Cheetah-Texture-Packer/raw/master/screen.png)
+
+References:
+
+* http://clb.demon.fi/files/RectangleBinPack.pdf
+* http://clb.demon.fi/projects/more-rectangle-bin-packing
