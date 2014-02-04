@@ -20,26 +20,30 @@ QStringList imageExtensions;
 void printHelp(const char * error = NULL)
 {
     if(error)
-        puts(error);
-    printf("Usage: packer [-s size] [-o outfile] [options] [file|directory ...]\n\
-Avaiable options:\n\
--s, --size W[xH]           atlas maximum size (if it is not enough - create more than 1 atlas)\n\
--o, --out-file outfile     output atlas name\n\
---disable-merge            do not merge similar images\n\
---disable-crop             do not crop images\n\
---crop-threshold value     crop threshold (0-255)\n\
---disable-border           do not make 1px border\n\
---border-size              set border size in pixels\n\
---extrude-size             set extrude size in pixels\n\
---enable-rotate            enable sprites rotation\n\
---disable-recursion        disable recursive scan (pack only given directory)\n\
---square                   force to make square textures\n\
---autosize-threshold value auto-optimize atlas size (0-100, 0 - disabled)\n\
---min-texture-size WxH     auto-optimize minimum size\n\
---sort-order value         select sorting order algorithm (0-4)\n\
--h, -?, --help             show this help\n");
+        fputs(error, stderr);
+    printf(
+"Usage: packer [-s size] [-o OUTFILE] [options] [file|directory ...]\n"
+"Avaiable options:\n"
+"  -s, --size W[xH]           atlas maximum size (if it is not enough - create\n"
+"                             more than 1 atlas)\n"
+"  -o, --out-file OUTFILE     output atlas name\n"
+"      --disable-merge        do not merge similar images\n"
+"      --disable-crop         do not crop images\n"
+"      --crop-threshold N     crop threshold (0-255)\n"
+"      --disable-border       do not make 1px border\n"
+"      --border-size          set border size in pixels\n"
+"      --extrude-size         set extrude size in pixels\n"
+"      --enable-rotate        enable sprites rotation\n"
+"      --disable-recursion    disable recursive scan (pack only given directory)\n"
+"      --square               force to make square textures\n"
+"      --autosize-threshold N auto-optimize atlas size (0-100, 0 - disabled)\n"
+"      --min-texture-size WxH auto-optimize minimum size\n"
+"      --sort-order N         select sorting order algorithm (0-4)\n"
+"  -h, -?, --help             show this help and exit\n");
     if(error)
         exit(1);
+    else
+        exit(0);
 }
 struct packerData
 {
@@ -110,16 +114,16 @@ int main(int argc, char *argv[])
         QString outFile = "atlas";
         for (int i = 1; i < argc; ++i)
         {
-            if(check_opt("--help") || check_opt("-h")|| check_opt("-?"))
+            if(check_opt("--help") || check_opt("-h") || check_opt("-?"))
                 printHelp();
             else if(check_opt("-s") || check_opt("--size"))
             {
                 ++i;
                 if(i >= argc)
                     printHelp("Argument needed for option -s");
-                if(sscanf(argv[i], "%dx%d", &textureWidth, &textureHeight) != 2)
+                if(sscanf(argv[i], "%10dx%10d", &textureWidth, &textureHeight) != 2)
                 {
-                    if(sscanf(argv[i], "%d", &textureWidth) != 1)
+                    if(sscanf(argv[i], "%10d", &textureWidth) != 1)
                         printHelp("Wrong texture size format");
                     else
                         textureHeight = textureWidth;
@@ -157,7 +161,7 @@ int main(int argc, char *argv[])
                 ++i;
                 if(i >= argc)
                     printHelp("Argument needed for option --autosize-threshold");
-                if ((sscanf(argv[i], "%d", &autosizeThreshold) != 1) ||
+                if ((sscanf(argv[i], "%10d", &autosizeThreshold) != 1) ||
                     (autosizeThreshold < 0) ||
                     (autosizeThreshold > 100))
                 {
@@ -169,7 +173,7 @@ int main(int argc, char *argv[])
                 ++i;
                 if(i >= argc)
                     printHelp("Argument needed for option --extrude-size");
-                if ((sscanf(argv[i], "%d", &extrude) != 1) || (extrude < 0) )
+                if ((sscanf(argv[i], "%10d", &extrude) != 1) || (extrude < 0) )
                 {
                     printHelp("Wrong extrude size");
                 }
@@ -179,7 +183,7 @@ int main(int argc, char *argv[])
                 ++i;
                 if(i >= argc)
                     printHelp("Argument needed for option --border-size");
-                if ((sscanf(argv[i], "%d", &border) != 1) || (border < 0) )
+                if ((sscanf(argv[i], "%10d", &border) != 1) || (border < 0) )
                 {
                     printHelp("Wrong border size");
                 }
@@ -189,9 +193,9 @@ int main(int argc, char *argv[])
                 ++i;
                 if(i >= argc)
                     printHelp("Argument needed for option -min-texture-size");
-                if(sscanf(argv[i], "%dx%d", &minTextureSizeX, &minTextureSizeY) != 2)
+                if(sscanf(argv[i], "%10dx%10d", &minTextureSizeX, &minTextureSizeY) != 2)
                 {
-                    if(sscanf(argv[i], "%d", &minTextureSizeX) != 1)
+                    if(sscanf(argv[i], "%10d", &minTextureSizeX) != 1)
                         printHelp("Wrong texture size format");
                     else
                         minTextureSizeY = minTextureSizeX;
@@ -202,7 +206,7 @@ int main(int argc, char *argv[])
                 ++i;
                 if(i >= argc)
                     printHelp("Argument needed for option --crop-threshold");
-                if ((sscanf(argv[i], "%d", &cropThreshold) != 1) ||
+                if ((sscanf(argv[i], "%10d", &cropThreshold) != 1) ||
                     (cropThreshold < 0) ||
                     (cropThreshold > 255))
                 {
@@ -214,7 +218,7 @@ int main(int argc, char *argv[])
                 ++i;
                 if(i >= argc)
                     printHelp("Argument needed for option --sort-order");
-                if ((sscanf(argv[i], "%d", &sortorder) != 1) ||
+                if ((sscanf(argv[i], "%10d", &sortorder) != 1) ||
                     (sortorder < 0) ||
                     (sortorder > 4))
                 {
@@ -428,7 +432,7 @@ int main(int argc, char *argv[])
             area += textures.at(i).width() * textures.at(i).height();
         float percent = (((float)packer.area / (float)area) * 100.0f);
 //        float percent2 = (float)(((float)packer.neededArea / (float)area) * 100.0f );
-        printf("Atlas generated. %f%% filled, %d images missed, %d merged, %d KBytes\n",
+        printf("Atlas generated. %f%% filled, %d images missed, %d merged, %d KB\n",
                percent, packer.missingImages, packer.mergedImages, (int)((area*4)/1024));
 
 //        const char * format = qPrintable(outFormat);
