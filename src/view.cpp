@@ -10,14 +10,18 @@ void View::paintEvent(QPaintEvent * /* event */)
     QPainter painter(this);
     int minHeight = 0;
     for(int i = 0; i < textures.count(); i++)
-        minHeight+=(textures[i].size().height()+10)*scale;
+    {
+        minHeight += (textures[i].size().height() + 10) * scale;
+    }
     this->setMinimumSize(size.width()*scale, minHeight);
     int pos = 0;
     for(int i = 0; i < textures.count(); i++)
     {
-        painter.fillRect(0, pos, textures.at(i).width()*scale, textures.at(i).height()*scale, Qt::magenta);
-        painter.drawPixmap(0, pos, textures.at(i).width()*scale, textures.at(i).height()*scale, textures.at(i));
-        pos+=(textures.at(i).height()+10)*scale;
+        painter.fillRect(0, pos, textures.at(i).width()*scale,
+                         textures.at(i).height()*scale, Qt::magenta);
+        painter.drawPixmap(0, pos, textures.at(i).width()*scale,
+                           textures.at(i).height()*scale, textures.at(i));
+        pos += (textures.at(i).height() + 10) * scale;
     }
 }
 
@@ -29,10 +33,14 @@ void View::updatePixmap(const QList<QImage> &images)
     for(int i = 0; i < images.count(); i++)
     {
         texture = QPixmap::fromImage(images.at(i));
-        if(i == 0) size = texture.size();
+        if(i == 0)
+        {
+            size = texture.size();
+        }
         textures << texture;
     }
-    this->setMinimumSize(size.width()*scale, (size.height() + 10)*images.count()*scale);
+    this->setMinimumSize(size.width()*scale,
+                         (size.height() + 10)*images.count()*scale);
     update();
 }
 

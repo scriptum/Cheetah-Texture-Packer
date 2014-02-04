@@ -11,20 +11,20 @@ struct trbl
 struct MaxRectsNode
 {
     QRect r; //rect
-//    QSize *i; //image
+    //    QSize *i; //image
     trbl b; //border
 };
 class MaxRects
 {
-public:
-    MaxRects();
-    QList<MaxRectsNode> F;
-    QList<QRect> R;
-    QList<MaxRectsNode*> FR;
-    QPoint insertNode(inputImage*);
-    int heuristic, w, h, rotation;
-    bool leftToRight;
-    border_t *border;
+    public:
+        MaxRects();
+        QList<MaxRectsNode> F;
+        QList<QRect> R;
+        QList<MaxRectsNode *> FR;
+        QPoint insertNode(inputImage *);
+        int heuristic, w, h, rotation;
+        bool leftToRight;
+        border_t *border;
 };
 
 #endif // MAXRECTS_H
