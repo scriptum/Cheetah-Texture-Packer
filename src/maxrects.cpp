@@ -6,7 +6,7 @@ MaxRects::MaxRects()
 
 QPoint MaxRects::insertNode(inputImage * input)
 {
-    int i, j;
+    int i;
     int min = 999999999, mini = -1, m;
     QSize img = input->sizeCurrent;
 //    if(img.width() == w) img.setWidth(img.width() - border->l - border->r);
@@ -14,7 +14,7 @@ QPoint MaxRects::insertNode(inputImage * input)
     if(img.width() == 0 || img.height() == 0)
         return QPoint(0,0);
     bool leftNeighbor = false, rightNeighbor = false;
-    bool _leftNeighbor, _rightNeighbor;
+    bool _leftNeighbor = false, _rightNeighbor = false;
     bool rotated, bestIsRotated = false;
     for(i = 0; i < F.size(); i++)
     {
@@ -161,9 +161,9 @@ QPoint MaxRects::insertNode(inputImage * input)
         
         for(i = 0; i < F.size(); i++)
         {
-            for(j = i + 1; j < F.size(); j++)
+            for(int j = i + 1; j < F.size(); j++)
             {
-                if(i!=j  && F.at(i).r.contains(F.at(j).r))
+                if(i != j  && F.at(i).r.contains(F.at(j).r))
                 {
                     F.removeAt(j);
                     j--;

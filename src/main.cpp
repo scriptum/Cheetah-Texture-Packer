@@ -22,7 +22,7 @@ void printHelp(const char * error = NULL)
     if(error)
         fputs(error, stderr);
     printf(
-"Usage: packer [-s size] [-o OUTFILE] [options] [file|directory ...]\n"
+"Usage: cheetah-texture-packer [-s size] [-o OUTFILE] [options] [file|dir ...]\n"
 "Avaiable options:\n"
 "  -s, --size W[xH]           atlas maximum size (if it is not enough - create\n"
 "                             more than 1 atlas)\n"
@@ -331,7 +331,7 @@ int main(int argc, char *argv[])
                         size.transpose();
                         crop = QRect(crop.y(), crop.x(), crop.height(), crop.width());
                     }
-                    out << ((packerData*)(packer.images.at(i).id))->file <<
+                    out << (static_cast<packerData*>(packer.images.at(i).id))->file <<
                            "\t" <<
                            pos.x() << "\t" <<
                            pos.y() << "\t" <<
@@ -348,7 +348,7 @@ int main(int argc, char *argv[])
 
         for (int i = 0; i < packer.images.size(); i++)
         {
-            qDebug() << "Processing" << ((packerData*)(packer.images.at(i).id))->file;
+            qDebug() << "Processing" << (static_cast<packerData*>(packer.images.at(i).id))->file;
             if(packer.images.at(i).duplicateId != NULL && packer.merge)
             {
                 continue;
@@ -368,7 +368,7 @@ int main(int argc, char *argv[])
                 crop = packer.images.at(i).crop;
             }
             QImage img;
-            img = QImage(((packerData*)(packer.images.at(i).id))->path);
+            img = QImage((static_cast<packerData*>(packer.images.at(i).id))->path);
             if(packer.images.at(i).rotated)
             {
                 QTransform myTransform;

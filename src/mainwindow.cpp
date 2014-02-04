@@ -119,9 +119,9 @@ void MainWindow::deleteSelectedTiles()
     QList<QListWidgetItem *> itemList = ui->tilesList->selectedItems();
     for (int i=0; i<itemList.size(); i++) {
         for (int j = 0; j < packer.images.size(); ++j) {
-            if(((packerData*)(packer.images.at(j).id))->listItem == itemList[i])
+            if((static_cast<packerData*>(packer.images.at(j).id))->listItem == itemList[i])
             {
-                delete ((packerData*)(packer.images.at(j).id));
+                delete (static_cast<packerData*>(packer.images.at(j).id));
                 packer.images.removeAt(j);
             }
         }
@@ -208,7 +208,7 @@ void MainWindow::packerUpdate()
                         size.transpose();
                         crop = QRect(crop.y(), crop.x(), crop.height(), crop.width());
                     }
-                    out << (((packerData*)(packer.images.at(i).id))->listItem)->text() <<
+                    out << ((static_cast<packerData*>(packer.images.at(i).id))->listItem)->text() <<
                            "\t" <<
                            pos.x() << "\t" <<
                            pos.y() << "\t" <<
@@ -227,10 +227,10 @@ void MainWindow::packerUpdate()
     {
         if(packer.images.at(i).pos == QPoint(999999, 999999))
         {
-            (((packerData*)(packer.images.at(i).id))->listItem)->setForeground(Qt::red);
+            ((static_cast<packerData*>(packer.images.at(i).id))->listItem)->setForeground(Qt::red);
             continue;
         }
-        (((packerData*)(packer.images.at(i).id))->listItem)->setForeground(Qt::black);
+        ((static_cast<packerData*>(packer.images.at(i).id))->listItem)->setForeground(Qt::black);
         if(packer.images.at(i).duplicateId != NULL && packer.merge)
         {
             continue;
@@ -251,7 +251,7 @@ void MainWindow::packerUpdate()
         }
         QImage img;
         if((exporting || previewWithImages))
-            img = QImage(((packerData*)(packer.images.at(i).id))->path);
+            img = QImage((static_cast<packerData*>(packer.images.at(i).id))->path);
         if(packer.images.at(i).rotated)
         {
             QTransform myTransform;
@@ -341,11 +341,11 @@ void MainWindow::packerUpdate()
             imgdirFile += outFormat.toLower();
             if(outFormat == "JPG")
             {
-                int res = textures.at(i).save(imgdirFile, format, 100);
+                textures.at(i).save(imgdirFile, format, 100);
             }
             else
             {
-                int res = textures.at(i).save(imgdirFile);
+                textures.at(i).save(imgdirFile);
             }
         }
         QMessageBox::information(0, tr("Done"), tr("Your atlas successfully saved in ") + outDir);
@@ -432,7 +432,7 @@ void MainWindow::dropEvent(QDropEvent *event)
         QFileInfo fileInfo(localPath);
         if(fileInfo.isFile()) {
             ui->tilesList->addItem(fileInfo.fileName());
-            packerData * data = new packerData;
+            packerData *data = new packerData;
             data->listItem = ui->tilesList->item(ui->tilesList->count() - 1);
             data->path = fileInfo.absoluteFilePath();
             packer.addItem(data->path, data);

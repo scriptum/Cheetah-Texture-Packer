@@ -190,15 +190,14 @@ quint32 rc_crc32(quint32 crc, const uchar *buf, size_t len)
     static quint32 table[256];
     static int have_table = 0;
     quint32 rem, octet;
-    int i, j;
     const uchar *p, *q;
 
     /* This check is not thread safe; there is no mutex. */
     if (have_table == 0) {
         /* Calculate CRC table. */
-        for (i = 0; i < 256; i++) {
+        for (int i = 0; i < 256; i++) {
             rem = i;  /* remainder from polynomial division */
-            for (j = 0; j < 8; j++) {
+            for (int j = 0; j < 8; j++) {
                 if (rem & 1) {
                     rem >>= 1;
                     rem ^= 0xedb88320;
@@ -221,7 +220,7 @@ quint32 rc_crc32(quint32 crc, const uchar *buf, size_t len)
 
 void ImagePacker::UpdateCrop()
 {
-    for(int i=0;i<images.size();++i)
+    for(int i = 0; i < images.size(); ++i)
         images[i].crop = crop(QImage(images[i].path));
 }
 
@@ -407,10 +406,9 @@ void ImagePacker::CropLastImage( int heur, int w, int h, bool wh)
     }
 
     int binIndex=bins.count();
-    unsigned areaBuf = 0;
     missingImages = 0;
     bins << QSize(w,h);
-    areaBuf += FillBin( heur, w ,h , binIndex);
+    FillBin( heur, w ,h , binIndex);
     if(missingImages)
     {
         images = last_images;
@@ -472,7 +470,7 @@ void ImagePacker::DivideLastImage( int heur, int w, int h, bool wh)
             h/=2;
         wh = !wh;
     }
-    unsigned areaBuf = AddImgesToBins(heur,w,h);
+    AddImgesToBins(heur, w, h);
     if(missingImages)
     {
         images = last_images;
